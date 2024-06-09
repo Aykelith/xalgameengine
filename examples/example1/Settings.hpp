@@ -1,0 +1,6 @@
+#ifndef SETTINGS_HPP
+#define SETTINGS_HPP
+
+#define USING_GRAPHICS_API_VULKAN
+
+#endif // SETTINGS_HPP

@@ -1,0 +1,6 @@
+#ifndef SETTINGS_HPP
+#define SETTINGS_HPP
+
+#define USING_GRAPHICS_API_@GRAPHICS_API@
+
+#endif // SETTINGS_HPP

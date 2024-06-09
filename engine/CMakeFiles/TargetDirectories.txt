@@ -1,2 +1,0 @@
-/home/alex/work/xalgameengine/engine/CMakeFiles/edit_cache.dir
-/home/alex/work/xalgameengine/engine/CMakeFiles/rebuild_cache.dir
