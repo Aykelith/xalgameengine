@@ -16,12 +16,10 @@ int main() {
     INFO("GraphicsAPI: Vulkan");
 #endif
 
-    XALGE::XALGameEngine engine;
+#ifdef USING_GRAPHICS_API_VULKAN
+    XALGE::XALGameEngine engine = XALGE::XALGameEngine(new XALGE::PlatformSpecificGraphicsHandler::GLFWWithVulkan());
 
     const auto logicManager = engine.createLogicManager();
-
-#ifdef USING_GRAPHICS_API_VULKAN
-    engine.setGraphicsAPI(new XALGE::PlatformSpecificGraphicsHandler::GLFWWithVulkan());
 
     auto vkApplicationInfo = XALGE::Vulkan::createApplicationInfo("Example1", 1, 0, 0);
 

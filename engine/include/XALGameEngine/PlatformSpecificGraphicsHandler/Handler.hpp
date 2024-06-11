@@ -5,7 +5,7 @@
 
 namespace XALGE {
     class XALGameEngine;
-    enum GraphicsAPIEnum;
+    enum class GraphicsAPIEnum;
 
     namespace Window {
         class Window;
@@ -15,16 +15,17 @@ namespace XALGE {
 namespace XALGE { namespace PlatformSpecificGraphicsHandler {
     class Handler {
     public:
-        XALGE::GraphicsAPIEnum getGraphicsAPI() const;
+        virtual XALGE::GraphicsAPIEnum getGraphicsAPI() const = 0;
 
     protected:
         virtual void init() = 0;
         virtual void destroy() = 0;
+        virtual Window::Window* createWindow() = 0;
 
         friend XALGE::XALGameEngine;
 
     protected:
-        virtual Window::Window* createWindow() = 0;
+        
     };
 } }
 

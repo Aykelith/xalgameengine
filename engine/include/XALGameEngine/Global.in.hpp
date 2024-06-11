@@ -4,5 +4,6 @@
 #define XALGE_API
 
 #cmakedefine XALGE_IS_PRODUCTION
+#define USING_GRAPHICS_API_@GRAPHICS_API@
 
 #endif // XALGE_GLOBAL_HPP

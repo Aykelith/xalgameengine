@@ -2,7 +2,7 @@
 #define XALGE_GRAPHICS_API_ENUM_HPP
 
 namespace XALGE {
-    enum GraphicsAPIEnum {
+    enum class GraphicsAPIEnum {
         Vulkan = 0
     };
 }

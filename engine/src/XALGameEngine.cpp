@@ -1,17 +1,34 @@
+#include <XALGameEngine/Global.hpp>
+
+#include <stdexcept>
+
 #include <XALGameEngine/XALGameEngine.hpp>
 #include <XALGameEngine/Window/Window.hpp>
 #include <XALGameEngine/PlatformSpecificGraphicsHandler/Handler.hpp>
+#include <XALGameEngine/GraphicsAPIEnum.hpp>
 
 namespace XALGE {
-    XALGameEngine::XALGameEngine(short intentedNumberOfWindows, short intentedNumberOfLogicManagers) {
+    XALGameEngine::XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* handler, short intentedNumberOfWindows, short intentedNumberOfLogicManagers)
+        : platformSpecificGraphicsHandler{ std::unique_ptr<PlatformSpecificGraphicsHandler::Handler>(handler) } {
+#ifdef USING_GRAPHICS_API_VULKAN
+        if (handler->getGraphicsAPI() != XALGE::GraphicsAPIEnum::Vulkan) {
+            throw std::runtime_error("Cannot use a non-Vulkan PlatformSpecificGraphicsHandler");
+        }
+#endif
         this->windows.reserve(intentedNumberOfWindows);
         this->logicManagers.reserve(intentedNumberOfLogicManagers);
-    }
-
-    void XALGameEngine::setGraphicsAPI(PlatformSpecificGraphicsHandler::Handler* handler) {
-        this->platformSpecificGraphicsHandler = std::unique_ptr<PlatformSpecificGraphicsHandler::Handler>(handler);
 
         this->platformSpecificGraphicsHandler->init();
+    }
+
+    XALGameEngine::~XALGameEngine() {
+        this->platformSpecificGraphicsHandler->destroy();
+    }
+
+    void XALGameEngine::initializeBasicSetup() {
+#ifdef USING_GRAPHICS_API_VULKAN
+
+#endif
     }
 
     XALGE::Window::Window * const XALGameEngine::createWindow() {
@@ -39,7 +56,5 @@ namespace XALGE {
         for (const auto& it : this->logicManagers) {
             it->waitToStop();
         }
-
-        this->platformSpecificGraphicsHandler->destroy();
     }
 }

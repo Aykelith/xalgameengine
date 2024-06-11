@@ -4,5 +4,6 @@
 #define XALGE_API
 
 /* #undef XALGE_IS_PRODUCTION */
+#define USING_GRAPHICS_API_VULKAN
 
 #endif // XALGE_GLOBAL_HPP

@@ -15,6 +15,8 @@ find_package(glfw3 3.3 REQUIRED)
 
 option(XALGE_IS_PRODUCTION "ON for production build" OFF)
 
+set(GRAPHICS_API "VULKAN" CACHE STRING "The graphics API to use (VULKAN, DIRECTX, OPENGL)")
+
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/include/XALGameEngine/Global.in.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/include/XALGameEngine/Global.hpp")
 
 set(INCLUDE_PATH "${PROJECT_SOURCE_DIR}/include")

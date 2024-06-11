@@ -1,22 +1,22 @@
 #include <XALGameEngine/Log.hpp>
 
-#include <XALGameEngine/Window/GLFWWindow.hpp>
+#include <XALGameEngine/Window/GLFW.hpp>
 
 #include <GLFW/glfw3.h>
 
 namespace XALGE { namespace Window {
-	GLFWWindow::GLFWWindow(GLFWwindow* window)
+	GLFW::GLFW(GLFWwindow* window)
 		: window { window }  {}
 
-	GLFWWindow::~GLFWWindow() {
+	GLFW::~GLFW() {
 		glfwDestroyWindow(window);
 	}
 
-	const CloseWindowCheckerFunc GLFWWindow::getCloseWindowCheckerFunc() const {
+	const CloseWindowCheckerFunc GLFW::getCloseWindowCheckerFunc() const {
 		return [this]()->bool { return !glfwWindowShouldClose(this->window); };
 	}
 
-	const LogicLoopHandlerFunc GLFWWindow::getHandlerForLogicLoop() const {
+	const LogicLoopHandlerFunc GLFW::getHandlerForLogicLoop() const {
 		return [this]()->void {
 			glfwPollEvents(); 
 		};

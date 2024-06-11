@@ -20,10 +20,11 @@ namespace XALGE {
             Vulkan = 0
         };
 
-        XALGameEngine(short intentedNumberOfWindows = 1, short intentedNumberOfLogicManagers = 1);
-        ~XALGameEngine() = default;
+        XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* handler, short intentedNumberOfWindows = 1, short intentedNumberOfLogicManagers = 1);
+        ~XALGameEngine();
 
-        void setGraphicsAPI(XALGE::PlatformSpecificGraphicsHandler::Handler* handler);
+        void initializeBasicSetup();
+
         XALGE::Window::Window *const createWindow();
 
         LogicManager *const createLogicManager();

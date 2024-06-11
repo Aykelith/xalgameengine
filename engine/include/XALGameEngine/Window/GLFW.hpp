@@ -1,5 +1,5 @@
-#ifndef XALGE_WINDOW_GLFW_WINDOW_HPP
-#define XALGE_WINDOW_GLFW_WINDOW_HPP
+#ifndef XALGE_WINDOW_GLFW_HPP
+#define XALGE_WINDOW_GLFW_HPP
 
 #include "Window.hpp"
 
@@ -15,14 +15,14 @@ namespace XALGE {
 
 namespace XALGE {
 	namespace Window {
-		class GLFWWindow : public Window {
+		class GLFW : public Window {
 		public:
-			~GLFWWindow();
+			~GLFW();
 
 			const CloseWindowCheckerFunc getCloseWindowCheckerFunc() const;
 			const LogicLoopHandlerFunc getHandlerForLogicLoop() const;
 		protected:
-			GLFWWindow(GLFWwindow* window);
+			GLFW(GLFWwindow* window);
 
 			friend XALGE::PlatformSpecificGraphicsHandler::GLFWWithVulkan;
 		private:
@@ -31,4 +31,4 @@ namespace XALGE {
 	}
 }
 
-#endif // XALGE_WINDOW_GLFW_WINDOW_HPP
+#endif // XALGE_WINDOW_GLFW_HPP

@@ -1,4 +1,5 @@
-#include <XALGameEngine/Vulkan/Vulkan.hpp>
+#include <XALGameEngine/PlatformSpecificGraphicsHandler/Vulkan.hpp>
+#include <XALGameEngine/Vulkan/Utilities.hpp>
 
 #include <stdexcept>
 
@@ -6,7 +7,12 @@ namespace XALGE {
 	namespace Vulkan {
 		std::vector<const char*> defaultValidationLayers = { "VK_LAYER_KHRONOS_validation" };
 
-		VkInstance createInstance(VkInstanceCreateInfo* instanceCreateInfoPtr, VkAllocationCallbacks* allocatorPtr) {
+		Utilities::Utilities(XALGE::PlatformSpecificGraphicsHandler::Vulkan* handler)
+			: platformSpecificGraphicsHandler{ handler } {
+
+		}
+
+		VkInstance Utilities::createInstance(VkInstanceCreateInfo* instanceCreateInfoPtr, VkAllocationCallbacks* allocatorPtr) {
 			if (instanceCreateInfoPtr == nullptr) {
 				throw std::runtime_error("Called with instanceCreateInfoPtr to nullptr");
 			}
@@ -20,7 +26,7 @@ namespace XALGE {
 			return instance;
 		}
 
-		VkApplicationInfo createApplicationInfo(std::string_view appName, int appVersioMajor, int appVersionMinor, int appVersionPatch) {
+		VkApplicationInfo Utilities::createApplicationInfo(std::string_view appName, int appVersioMajor, int appVersionMinor, int appVersionPatch) {
 			VkApplicationInfo appInfo{};
 			appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 			appInfo.pApplicationName = appName.data();
@@ -32,7 +38,7 @@ namespace XALGE {
 			return appInfo;
 		}
 
-		VkInstanceCreateInfo createInstanceCreateInfo(VkApplicationInfo* applicationInfo, const std::vector<const char*>& extensions) {
+		VkInstanceCreateInfo Utilities::createInstanceCreateInfo(VkApplicationInfo* applicationInfo, const std::vector<const char*>& extensions) {
 			VkInstanceCreateInfo createInfo{};
 			createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			createInfo.pApplicationInfo = applicationInfo;
@@ -43,7 +49,16 @@ namespace XALGE {
 			return createInfo;
 		}
 
-		std::vector<VkExtensionProperties> getSupportedExtensions() {
+		VkInstanceCreateInfo Utilities::createInstanceCreateInfoWithMinRequiredExtensions(VkApplicationInfo* applicationInfo, const std::vector<const char*>& additionalExtensions) {
+			auto extensions = this->platformSpecificGraphicsHandler->getRequiredExtensions();
+
+			// Check if additionalExtensions has data and compare with already extensions
+			
+			return this->createInstanceCreateInfo(applicationInfo, extensions);
+
+		}
+
+		std::vector<VkExtensionProperties> Utilities::getSupportedExtensions() {
 			uint32_t extensionCount = 0;
 			vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 
@@ -53,7 +68,7 @@ namespace XALGE {
 			return extensions;
 		}
 
-		bool checkValidationLayerSupport(const std::vector<const char*>& validationLayers) {
+		bool Utilities::checkValidationLayerSupport(const std::vector<const char*>& validationLayers) {
 			uint32_t layerCount;
 			vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
@@ -78,7 +93,7 @@ namespace XALGE {
 			return false;
 		}
 
-		void addValidationLayersInstanceCreateInfo(VkInstanceCreateInfo* instanceCreateInfoPtr, const std::vector<const char*>& validationLayers) {
+		void Utilities::addValidationLayersInstanceCreateInfo(VkInstanceCreateInfo* instanceCreateInfoPtr, const std::vector<const char*>& validationLayers) {
 			if (!checkValidationLayerSupport()) {
 				throw std::runtime_error("Validation layers requested, but not available!");
 			}
