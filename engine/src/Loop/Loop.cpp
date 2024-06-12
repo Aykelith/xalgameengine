@@ -2,6 +2,10 @@
 
 namespace XALGE {
 	namespace Loop {
+		Loop::Loop()
+			: continueLoop{ true } {
+		}
+
 		void Loop::triggerStop() {
 			this->continueLoop = false;
 		}

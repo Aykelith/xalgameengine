@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <XALGameEngine/PlatformSpecificGraphicsHandler/GLFWWithVulkan.hpp>
-#include <XALGameEngine/Window/GLFWWindow.hpp>
+#include <XALGameEngine/Window/GLFW.hpp>
 
 #include <stdexcept>
 
@@ -10,6 +10,15 @@ namespace XALGE {
     namespace PlatformSpecificGraphicsHandler {
         GLFWWithVulkan::GLFWWithVulkan() {
 
+        }
+
+        XALGE::GraphicsAPIEnum GLFWWithVulkan::getGraphicsAPI() const {
+            return Vulkan::getGraphicsAPI();
+        }
+
+        std::vector<const char*> GLFWWithVulkan::getRequiredExtensions() {
+            auto a = std::vector<const char*>();
+            return a;
         }
 
         void GLFWWithVulkan::init() {
@@ -29,7 +38,7 @@ namespace XALGE {
         }
 
         XALGE::Window::Window* GLFWWithVulkan::createWindow() {
-            return new XALGE::Window::GLFWWindow(glfwCreateWindow(640, 480, "Window Title", nullptr, nullptr));
+            return new XALGE::Window::GLFW(glfwCreateWindow(640, 480, "Window Title", nullptr, nullptr));
         }
     }
 }

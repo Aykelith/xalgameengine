@@ -4,11 +4,11 @@
 
 #ifdef USING_GRAPHICS_API_VULKAN
 #include <XALGameEngine/PlatformSpecificGraphicsHandler/GLFWWithVulkan.hpp>
-#include <XALGameEngine/Vulkan/Vulkan.hpp>
+#include <XALGameEngine/GraphicsHandler/Vulkan.hpp>
 #endif
 
 #include <XALGameEngine/XALGameEngine.hpp>
-#include <XALGameEngine/Window/GLFWWindow.hpp>
+// #include <XALGameEngine/Window/GLFWWindow.hpp>
 #include <XALGameEngine/Log.hpp>
 
 int main() {
@@ -17,21 +17,22 @@ int main() {
 #endif
 
 #ifdef USING_GRAPHICS_API_VULKAN
-    XALGE::XALGameEngine engine = XALGE::XALGameEngine(new XALGE::PlatformSpecificGraphicsHandler::GLFWWithVulkan());
+    XALGE::XALGameEngine engine = XALGE::XALGameEngine::initializeBasicSetup(
+        new XALGE::PlatformSpecificGraphicsHandler::GLFWWithVulkan(),
+        new XALGE::GraphicsHandler::Vulkan()
+    );
 
-    const auto logicManager = engine.createLogicManager();
-
-    auto vkApplicationInfo = XALGE::Vulkan::createApplicationInfo("Example1", 1, 0, 0);
+    // auto vkApplicationInfo = XALGE::Vulkan::createApplicationInfo("Example1", 1, 0, 0);
 
     //auto platformSpecificGraphicsHandler = engine.getPlatformSpecificGraphicsHandler<GLFWWithVulkan>();
 #endif
 
-    const auto window = engine.createWindow();
+    /*const auto window = engine.createWindow();
 
     VERBOSE_DEBUG("logicManager: " << logicManager);
     VERBOSE_DEBUG("window: " << window);
 
-    logicManager->attachWindow(window);
+    logicManager->attachWindow(window);*/
 
     // DEBUG(window->tag);
 

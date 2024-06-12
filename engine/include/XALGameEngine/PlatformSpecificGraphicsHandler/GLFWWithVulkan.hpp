@@ -14,6 +14,8 @@ namespace XALGE {
             GLFWWithVulkan();
 
             XALGE::GraphicsAPIEnum getGraphicsAPI() const;
+
+            std::vector<const char*> getRequiredExtensions();
         protected:
             void init();
             void destroy();

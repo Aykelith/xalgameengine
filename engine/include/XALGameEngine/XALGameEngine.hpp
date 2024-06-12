@@ -5,29 +5,42 @@
 #include <thread>
 #include <vector>
 
-#include "LogicManager.hpp"
+#include "Loop/LogicLoop.hpp"
+#include "Loop/RenderLoop.hpp"
 
-namespace XALGE {   
+namespace XALGE {
+    namespace GraphicsHandler {
+        class Handler;
+    }
+
     namespace PlatformSpecificGraphicsHandler {
         class Handler;
+    }
+
+    namespace Window {
+        class Window;
     }
 }
 
 namespace XALGE {
     class XALGameEngine {
     public:
+        static XALGameEngine initializeBasicSetup(XALGE::PlatformSpecificGraphicsHandler::Handler* platformSpecificGraphicsHandler, XALGE::GraphicsHandler::Handler* graphicsHandler);
+
+    public:
         enum GraphicsAPI {
             Vulkan = 0
         };
 
-        XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* handler, short intentedNumberOfWindows = 1, short intentedNumberOfLogicManagers = 1);
+        XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* handler, XALGE::GraphicsHandler::Handler* graphicsHandler, short intentedNumberOfWindows = 1, short intentedNumberOfLogicManagers = 1);
         ~XALGameEngine();
-
-        void initializeBasicSetup();
+        XALGameEngine(XALGameEngine& engine) = default;
+        XALGameEngine(XALGameEngine&& engine) = default;
 
         XALGE::Window::Window *const createWindow();
 
-        LogicManager *const createLogicManager();
+        XALGE::Loop::LogicLoop *const createLogicLoop();
+        XALGE::Loop::RenderLoop* const createRenderLoop();
 
         template <typename T>
         const T* const getPlatformSpecificGraphicsHandler() const;
@@ -37,7 +50,8 @@ namespace XALGE {
     private:
         std::unique_ptr<XALGE::PlatformSpecificGraphicsHandler::Handler> platformSpecificGraphicsHandler;
 
-        std::vector<std::unique_ptr<LogicManager>> logicManagers;
+        std::vector<XALGE::Loop::LogicLoop> logicLoops;
+        std::vector<XALGE::Loop::RenderLoop> renderLoops;
         std::vector<std::unique_ptr<XALGE::Window::Window>> windows;
     };
 

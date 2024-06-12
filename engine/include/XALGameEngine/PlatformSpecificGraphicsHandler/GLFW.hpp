@@ -6,9 +6,6 @@
 namespace XALGE {
 	namespace PlatformSpecificGraphicsHandler {
 		class GLFW: public virtual Handler {
-        public:
-            virtual XALGE::GraphicsAPIEnum getGraphicsAPI() const = 0;
-
         protected:
             virtual void init() = 0;
             virtual void destroy() = 0;

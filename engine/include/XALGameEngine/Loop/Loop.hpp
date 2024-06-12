@@ -1,10 +1,14 @@
 #ifndef XALGE_LOOP_LOOP_HPP
 #define XALGE_LOOP_LOOP_HPP
 
+#include <thread>
+
 namespace XALGE {
 	namespace Loop {
 		class Loop {
 		public:
+			Loop();
+
 			virtual void startLoop() = 0;
 			virtual void triggerStop();
 			virtual void waitToStop();
@@ -20,3 +24,5 @@ namespace XALGE {
 		};
 	}
 }
+
+#endif // XALGE_LOOP_LOOP_HPP

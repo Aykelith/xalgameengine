@@ -1,5 +1,5 @@
-#ifndef XALGE_LOGIC_MANAGER_HPP
-#define XALGE_LOGIC_MANAGER_HPP
+#ifndef XALGE_RENDER_MANAGER_HPP
+#define XALGE_RENDER_MANAGER_HPP
 
 #include <memory>
 #include <vector>
@@ -9,13 +9,13 @@
 
 namespace XALGE {
 	namespace Loop {
-		class LogicLoop: public Loop {
+		class RenderLoop : public Loop {
 		public:
 			typedef std::function<bool()> ContinueConditionFunc;
 			typedef std::function<void()> LoopFunc;
 
 		public:
-			LogicLoop();
+			RenderLoop();
 
 			void startLoop();
 
@@ -27,10 +27,10 @@ namespace XALGE {
 			bool shouldContinueLoop();
 
 		private:
-			std::vector<LogicLoop::ContinueConditionFunc> shouldContinueLoopFuncs;
-			std::vector<LogicLoop::LoopFunc> loopHandlerFuncs;
+			std::vector<RenderLoop::ContinueConditionFunc> shouldContinueLoopFuncs;
+			std::vector<RenderLoop::LoopFunc> loopHandlerFuncs;
 		};
 	}
 }
 
-#endif // XALGE_LOGIC_MANAGER_HPP
+#endif // XALGE_RENDER_MANAGER_HPP
