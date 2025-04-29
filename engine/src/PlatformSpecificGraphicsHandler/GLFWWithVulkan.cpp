@@ -17,8 +17,9 @@ namespace XALGE {
         }
 
         std::vector<const char*> GLFWWithVulkan::getRequiredExtensions() {
-            auto a = std::vector<const char*>();
-            return a;
+            uint32_t extensionsCount;
+            const auto extensions = glfwGetRequiredInstanceExtensions(&extensionsCount);
+            return std::vector<const char*>(extensions, extensions + extensionsCount);
         }
 
         void GLFWWithVulkan::init() {

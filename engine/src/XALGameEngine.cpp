@@ -5,6 +5,7 @@
 #include <XALGameEngine/XALGameEngine.hpp>
 #include <XALGameEngine/Window/Window.hpp>
 #include <XALGameEngine/PlatformSpecificGraphicsHandler/Handler.hpp>
+#include <XALGameEngine/GraphicsHandler/Handler.hpp>
 #include <XALGameEngine/GraphicsAPIEnum.hpp>
 #include <XALGameEngine/GlobalGraphicsHandler.hpp>
 
@@ -30,23 +31,33 @@ namespace XALGE {
         return engine;
     }
 
-    XALGameEngine::XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* handler, XALGE::GraphicsHandler::Handler* graphicsHandler, short intentedNumberOfWindows, short intentedNumberOfLogicManagers)
-        : platformSpecificGraphicsHandler{ std::unique_ptr<PlatformSpecificGraphicsHandler::Handler>(handler) } {
+    XALGameEngine::XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* platformSpecificGraphicsHandler, XALGE::GraphicsHandler::Handler* graphicsHandler, short intentedNumberOfWindows, short intentedNumberOfLogicManagers)
+        : platformSpecificGraphicsHandler{ std::unique_ptr<PlatformSpecificGraphicsHandler::Handler>(platformSpecificGraphicsHandler) }
+        , graphicsHandler{ std::unique_ptr<GraphicsHandler::Handler>(graphicsHandler) } {
 #ifdef USING_GRAPHICS_API_VULKAN
-        if (handler->getGraphicsAPI() != XALGE::GraphicsAPIEnum::Vulkan) {
+        if (platformSpecificGraphicsHandler->getGraphicsAPI() != XALGE::GraphicsAPIEnum::Vulkan) {
             throw std::runtime_error("Cannot use a non-Vulkan PlatformSpecificGraphicsHandler");
         }
 #endif
-        GlobalGraphicsHandlerInstance.set(graphicsHandler);
+
+        if (graphicsHandler->getGraphicsAPI() != platformSpecificGraphicsHandler->getGraphicsAPI()) {
+            throw std::runtime_error("The PlatformSpecificGraphicsHandler graphics API is different from the one of GraphicsHandler");
+        }
+
+        graphicsHandler->setPlatformSpecificGraphicsHandler(platformSpecificGraphicsHandler);
 
         this->windows.reserve(intentedNumberOfWindows);
         this->logicLoops.reserve(intentedNumberOfLogicManagers);
 
         this->platformSpecificGraphicsHandler->init();
+        this->graphicsHandler->init();
+
+        GlobalGraphicsHandlerInstance.set(graphicsHandler);
     }
 
     XALGameEngine::~XALGameEngine() {
-        this->platformSpecificGraphicsHandler->destroy();
+        if (this->platformSpecificGraphicsHandler) this->platformSpecificGraphicsHandler->destroy();
+        if (this->graphicsHandler) this->graphicsHandler->destroy();
     }
     
     // XALGameEngine::XALGameEngine(XALGameEngine& engine) {}

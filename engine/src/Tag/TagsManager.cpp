@@ -17,7 +17,7 @@ namespace XALGE { namespace Tag {
 
 	const Tag TagsManager::generateTag(const XALGE::Object::ObjectType& objectType, void* const object) {
 		const auto tag = nextTag;
-		VERBOSE("New tag " << tag << " for object of type " << objectType << " at address " << object);
+		XAL_LOG_VERBOSE("New tag " << tag << " for object of type " << objectType << " at address " << object);
 		nextTag += 1;
 
 		this->usedTags.insert({ tag, { objectType, object } });

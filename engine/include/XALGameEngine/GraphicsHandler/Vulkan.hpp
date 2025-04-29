@@ -7,6 +7,14 @@
 #include "Handler.hpp"
 
 namespace XALGE {
+	enum class GraphicsAPIEnum;
+
+	namespace PlatformSpecificGraphicsHandler {
+		class Vulkan;
+	}
+}
+
+namespace XALGE {
 	namespace GraphicsHandler {
 		class Vulkan : public Handler {
 		public:
@@ -14,8 +22,16 @@ namespace XALGE {
 
 			XALGE::GraphicsAPIEnum getGraphicsAPI() const;
 
+			virtual void init();
+			virtual void destroy();
+
+			void setPlatformSpecificGraphicsHandler(XALGE::PlatformSpecificGraphicsHandler::Handler* platformSpecificGraphicsHandler);
+
 		private:
+			XALGE::PlatformSpecificGraphicsHandler::Vulkan* vulkanPlatformSpecificGraphicsHandler;
+
 			VkInstance instance;
+			VkDebugUtilsMessengerEXT debugMessenger;
 		};
 	}
 }

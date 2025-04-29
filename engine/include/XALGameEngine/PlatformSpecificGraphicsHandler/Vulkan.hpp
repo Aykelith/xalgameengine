@@ -6,24 +6,19 @@
 #include "Handler.hpp"
 
 namespace XALGE {
-	namespace Vulkan {
-		class Utilities;
-	}
-}
-
-namespace XALGE {
 	namespace PlatformSpecificGraphicsHandler {
-		class Vulkan: virtual public Handler {
+		class Vulkan: public Handler {
 		public:
 			Vulkan();
 
 			XALGE::GraphicsAPIEnum getGraphicsAPI() const;
 
-			const XALGE::Vulkan::Utilities& getUtilities() const;
-
 			virtual std::vector<const char*> getRequiredExtensions() = 0;
+
 		protected:
-			const XALGE::Vulkan::Utilities& utilities;
+			virtual void init() = 0;
+			virtual void destroy() = 0;
+			virtual Window::Window* createWindow() = 0;
 		};
 	}
 }

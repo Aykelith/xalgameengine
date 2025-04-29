@@ -32,7 +32,7 @@ namespace XALGE {
             Vulkan = 0
         };
 
-        XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* handler, XALGE::GraphicsHandler::Handler* graphicsHandler, short intentedNumberOfWindows = 1, short intentedNumberOfLogicManagers = 1);
+        XALGameEngine(XALGE::PlatformSpecificGraphicsHandler::Handler* platformSpecificGraphicsHandler, XALGE::GraphicsHandler::Handler* graphicsHandler, short intentedNumberOfWindows = 1, short intentedNumberOfLogicManagers = 1);
         ~XALGameEngine();
         XALGameEngine(XALGameEngine& engine) = default;
         XALGameEngine(XALGameEngine&& engine) = default;
@@ -49,6 +49,7 @@ namespace XALGE {
         void stop();
     private:
         std::unique_ptr<XALGE::PlatformSpecificGraphicsHandler::Handler> platformSpecificGraphicsHandler;
+        std::unique_ptr<XALGE::GraphicsHandler::Handler> graphicsHandler;
 
         std::vector<XALGE::Loop::LogicLoop> logicLoops;
         std::vector<XALGE::Loop::RenderLoop> renderLoops;

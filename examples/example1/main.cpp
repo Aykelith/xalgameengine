@@ -13,7 +13,7 @@
 
 int main() {
 #ifdef USING_GRAPHICS_API_VULKAN
-    INFO("GraphicsAPI: Vulkan");
+    XAL_LOG_INFO("GraphicsAPI: Vulkan");
 #endif
 
 #ifdef USING_GRAPHICS_API_VULKAN
@@ -38,7 +38,7 @@ int main() {
 
     engine.start();
 
-    std::this_thread::sleep_for(std::chrono::seconds(10));
+    std::this_thread::sleep_for(std::chrono::seconds(3));
 
     engine.stop();
 

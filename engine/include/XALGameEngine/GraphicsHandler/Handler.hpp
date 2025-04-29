@@ -2,8 +2,11 @@
 #define XALGE_GRAPHICS_HANDLER_HANDLER_HPP
 
 namespace XALGE {
-	class XALGameEngine;
 	enum class GraphicsAPIEnum;
+
+	namespace PlatformSpecificGraphicsHandler {
+		class Handler;
+	}
 }
 
 namespace XALGE {
@@ -11,6 +14,10 @@ namespace XALGE {
 		class Handler {
 		public:
 			virtual XALGE::GraphicsAPIEnum getGraphicsAPI() const = 0;
+
+			virtual void init() = 0;
+			virtual void destroy() = 0;
+			virtual void setPlatformSpecificGraphicsHandler(XALGE::PlatformSpecificGraphicsHandler::Handler* platformSpecificGraphicsHandler) = 0;
 		};
 	}
 }
